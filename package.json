@@ -1,0 +1,28 @@
+{
+  "name": "alexBoilerplate",
+  "version": "1.0.0",
+  "description": "Alex Boilerplate",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexruzzarin/alexBoilerplate.git"
+  },
+  "author": "Alex Ruzzarin <alex@ruzzarin.net> (http://ruzzarin.net)",
+  "license": "GNU v2",
+  "bugs": {
+    "url": "https://github.com/alexruzzarin/alexBoilerplate/issues"
+  },
+  "homepage": "https://github.com/alexruzzarin/alexBoilerplate",
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "gulp": "^3.8.11",
+    "gulp-mocha": "^2.0.1",
+    "supertest": "^0.15.0"
+  },
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}

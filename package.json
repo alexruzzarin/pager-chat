@@ -4,7 +4,8 @@
   "description": "Alex Boilerplate",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "portInstall": "bower intall"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,10 @@
     "supertest": "^0.15.0"
   },
   "dependencies": {
-    "express": "^4.12.3"
+    "consolidate": "^0.12.1",
+    "express": "^4.12.3",
+    "glob": "^5.0.5",
+    "handlebars": "^3.0.1",
+    "lodash": "^3.7.0"
   }
 }

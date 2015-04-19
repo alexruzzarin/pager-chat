@@ -2,10 +2,9 @@
  * Created by Alex on 14/04/2015.
  */
 'use strict';
-var app = require('express')();
 
-app.get('/api/heartbeat', function (req, res) {
-    res.json();
-});
+require('./config/init')();
+
+var app=require('./config/express');
 
 module.exports = app;

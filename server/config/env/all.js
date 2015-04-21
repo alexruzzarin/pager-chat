@@ -3,6 +3,13 @@
  */
 'use strict';
 
-module.exports={
-    port: 3000
+module.exports = {
+    port: process.env.PORT || 3000,
+    db: {
+        uri: 'mongodb://localhost/pager-chat',
+        options: {
+            user: '',
+            pass: ''
+        }
+    }
 };

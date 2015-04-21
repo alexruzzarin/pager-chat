@@ -3,6 +3,6 @@
  */
 'use strict';
 
-module.exports={
-    port:process.env.PORT
+module.exports = {
+    port: process.env.PORT
 };

@@ -24,15 +24,19 @@
   "homepage": "https://github.com/alexruzzarin/alexBoilerplate",
   "devDependencies": {
     "bower": "^1.4.1",
+    "chai": "^2.2.0",
     "gulp": "^3.8.11",
+    "gulp-istanbul": "^0.8.1",
     "gulp-mocha": "^2.0.1",
     "supertest": "^0.15.0"
   },
   "dependencies": {
     "consolidate": "^0.12.1",
+    "crypto": "0.0.3",
     "express": "^4.12.3",
     "glob": "^5.0.5",
     "handlebars": "^3.0.1",
-    "lodash": "^3.7.0"
+    "lodash": "^3.7.0",
+    "mongoose": "^4.0.1"
   }
 }

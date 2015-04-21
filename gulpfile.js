@@ -9,16 +9,17 @@ var gulp = require('gulp'),
 
 var files={
     server:{
-        js:'server/tests/**/*.js'
+        js:'server/**/*.js',
+        tests:'server/tests/**/*.js'
     }
 };
 
 gulp.task('test:server', function (done) {
-    gulp.src(files.server.js, {read: false})
+    gulp.src(files.server.js)
         .pipe(istanbul())
         .pipe(istanbul.hookRequire())
         .on('finish', function(){
-            gulp.src(files.server.js)
+            gulp.src(files.server.tests, {read: false})
                 .pipe(mocha())
                 .pipe(istanbul.writeReports())
                 .on('end', done);

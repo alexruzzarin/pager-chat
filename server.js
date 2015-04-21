@@ -4,4 +4,6 @@
 var app = require('./server/app')(),
     config = require('./server/config/config');
 
-app.listen(config.port);
+app.listen(config.port, function() {
+    console.log("Node app is running at localhost:" + app.get('port'))
+});

@@ -1,6 +1,7 @@
 /**
  * Created by alex on 19/04/15.
  */
-var app = require('./server/app')();
+var app = require('./server/app')(),
+    config = require('./server/config/config');
 
-app.listen(3000);
+app.listen(config.port);

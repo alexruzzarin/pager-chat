@@ -4,7 +4,8 @@
 'use strict';
 
 var gulp = require('gulp'),
-    mocha = require('gulp-mocha');
+    mocha = require('gulp-mocha'),
+    istanbul = require('gulp-istanbul');
 
 var files={
     server:{
@@ -12,9 +13,16 @@ var files={
     }
 };
 
-gulp.task('test:server', function () {
+gulp.task('test:server', function (done) {
     gulp.src(files.server.js, {read: false})
-        .pipe(mocha());
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire())
+        .on('finish', function(){
+            gulp.src(files.server.js)
+                .pipe(mocha())
+                .pipe(istanbul.writeReports())
+                .on('end', done);
+        });
 });
 
 gulp.task('watch',function(){

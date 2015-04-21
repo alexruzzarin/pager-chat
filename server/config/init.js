@@ -6,7 +6,7 @@
 var glob = require('glob');
 
 module.exports = function () {
-    var environmentFiles = glob.sync('./config/env/' + process.env.NODE_ENV + '.js');
+    var environmentFiles = glob.sync('./server/config/env/' + process.env.NODE_ENV + '.js');
 
     if (!environmentFiles.length) {
         if (process.env.NODE_ENV) {

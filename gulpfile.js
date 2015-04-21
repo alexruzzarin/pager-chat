@@ -22,3 +22,7 @@ gulp.task('watch',function(){
 });
 
 gulp.task('test', ['test:server']);
+
+gulp.task('build', function(){
+
+});

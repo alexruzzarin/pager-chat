@@ -3,6 +3,7 @@
  */
 'use strict';
 var mongoose = require('mongoose'),
+    path = require('path'),
     config = require('./config');
 
 // Bootstrap db connection
@@ -18,4 +19,9 @@ mongoose.connection.on('error', function (err) {
     }
 );
 
+db.initModels = function() {
+    config.getGlobbedFiles('./server/models/**/*.js').forEach(function(modelPath){
+        require(path.resolve(modelPath));
+    });
+};
 module.exports = db;

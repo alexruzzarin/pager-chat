@@ -4,8 +4,9 @@
 
 'use strict';
 
-var db = require('../config/mongoose'),
-    should = require('chai').should(),
+require('../config/mongoose').initModels();
+
+var should = require('chai').should(),
     mongoose = require('mongoose'),
     User = mongoose.model('User');
 
@@ -60,6 +61,26 @@ describe('User Model Unit Tests:', function() {
             user.firstName = '';
             return user.save(function(err) {
                 should.exist(err);
+                done();
+            });
+        });
+    });
+
+    describe('Method authenticate', function() {
+        it('should return true if password is valid', function (done) {
+            var password = 'password';
+            user.preparePassword();
+            user.save(function(){
+                user.authenticate(password).should.equal(true);
+                done();
+            });
+        });
+
+        it('should return false if password is invalid', function () {
+            var password = 'secret';
+            user.preparePassword();
+            user.save(function(){
+                user.authenticate(password).should.equal(false);
                 done();
             });
         });

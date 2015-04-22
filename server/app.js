@@ -5,6 +5,6 @@
 
 require('./config/init')();
 
-var app=require('./config/express');
+var app = require('./config/express');
 
 module.exports = app;

@@ -4,7 +4,7 @@
 
 'use strict';
 
-require('../config/mongoose').initModels();
+require('../config/db').initModels();
 
 var should = require('chai').should(),
     mongoose = require('mongoose'),

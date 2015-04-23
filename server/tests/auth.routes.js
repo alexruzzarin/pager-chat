@@ -3,9 +3,9 @@
  */
 'use strict';
 
-var app = require('../app');
+var app = require('../../server');
 
-require('../config/mongoose').initModels();
+require('../config/db').initModels();
 
 var request = require('supertest'),
     should = require('chai').should(),

@@ -3,8 +3,11 @@
  */
 'use strict';
 
-module.exports=function(app){
-    app.route('/').get(function(req,res){
-        res.render('index');
-    });
+var indexController = require('../controllers/index');
+
+module.exports = function (app) {
+
+	app.route('/').get(indexController.get);
+
+	console.log('Loaded route: index');
 };

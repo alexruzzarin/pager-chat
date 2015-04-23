@@ -4,7 +4,7 @@
 'use strict';
 
 var request = require('supertest'),
-    app = require('../../server')();
+    app = require('../app');
 
 describe('heartbeat api', function () {
     describe('when requesting resource /api/heartbeat', function () {

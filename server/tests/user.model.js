@@ -76,7 +76,7 @@ describe('User Model Unit Tests:', function() {
             });
         });
 
-        it('should return false if password is invalid', function () {
+        it('should return false if password is invalid', function (done) {
             var password = 'secret';
             user.preparePassword();
             user.save(function(){

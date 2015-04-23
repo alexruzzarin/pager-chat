@@ -4,7 +4,7 @@
 'use strict';
 
 var request = require('supertest'),
-    app = require('../app')();
+    app = require('../app');
 
 describe('Home page', function () {
     describe('when requesting the root /', function () {

@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = require('../../server');
+var app = require('../app');
 
 require('../config/db').initModels();
 
@@ -16,7 +16,7 @@ describe('Passport: routes', function () {
 
     var user;
     var password = 'password';
-    var baseUrl = '/auth/local';
+    var baseUrl = '/auth/signin';
 
 
     // This function will run before each test.
@@ -40,8 +40,8 @@ describe('Passport: routes', function () {
         User.remove().exec(done);
     });
 
-    describe('POST /auth/local', function () {
-        it('should redirect to "/account" if authentication fails', function (done) {
+    describe('POST /auth/signin', function () {
+        it('should return the user if authentication works', function (done) {
             // post is what we will be sending to the /auth/local
             var post = {
                 email: user.email,
@@ -50,7 +50,8 @@ describe('Passport: routes', function () {
             request(app)
                 .post(baseUrl)
                 .send(post)
-                .expect(302)
+				.expect('Content-Type', /json/)
+				.expect(200, done)
                 .end(function (err, res) {
                     should.not.exist(err);
                     // confirm the redirect
@@ -58,7 +59,7 @@ describe('Passport: routes', function () {
                     done();
                 });
         });
-        it('should redirect to "/login" if authentication fails', function (done) {
+        it('should redirect to "/signin" if authentication fails', function (done) {
             var post = {
                 email: user.email,
                 password: 'fakepassword'
@@ -70,7 +71,7 @@ describe('Passport: routes', function () {
                 .end(function (err, res) {
                     should.not.exist(err);
                     // confirm the redirect
-                    res.header.location.should.include('/login');
+                    res.header.location.should.include('/auth/signin');
                     done();
                 });
         });

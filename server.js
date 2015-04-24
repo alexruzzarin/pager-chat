@@ -1,6 +1,8 @@
 'use strict';
 
-var app = require('./server/app');
+var app = require('./server/app'),
+	config = require('./server/config/config');
+
 
 // Start the app by listening on <port>
 app.listen(config.port, function () {

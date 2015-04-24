@@ -25,20 +25,27 @@ var files = {
 		js: {
 			vendor: [
 				'bower_components/jquery/dist/jquery.js',
-				'bower_components/angular/angular.js'
+				'bower_components/bootstrap/dist/js/bootstrap.js',
+				'bower_components/angular/angular.js',
+				'bower_components/angular-route/angular-route.js'
 			],
 			app: [
 				'client/js/application.js',
 				'client/js/**/*.js'
 			]
 		},
-		css: 'client/css/application.less'
+		css: 'client/css/application.less',
+		views: 'client/views/**/*.html'
 	}
 };
 
 gulp.task('client:images', function () {
 	gulp.src(files.client.images)
 		.pipe(gulp.dest('public/images'));
+});
+gulp.task('client:views', function () {
+	gulp.src(files.client.views)
+		.pipe(gulp.dest('public/views'));
 });
 gulp.task('client:js:vendor', function () {
 	gulp.src(files.client.js.vendor)
@@ -72,7 +79,7 @@ gulp.task('client:css', function () {
 		.pipe(minifyCss())
 		.pipe(gulp.dest('public/css'));
 });
-gulp.task('client', ['client:images', 'client:js:vendor', 'client:js:app', 'client:css']);
+gulp.task('client', ['client:images', 'client:views', 'client:js:vendor', 'client:js:app', 'client:css']);
 
 gulp.task('test:server', function (done) {
 	gulp.src(files.server.js)
@@ -90,6 +97,7 @@ gulp.task('test', ['test:server']);
 gulp.task('watch', ['build'], function () {
 	gulp.watch(files.server.js, ['test:server']);
 	gulp.watch(files.client.images, ['client:images']);
+	gulp.watch(files.client.views, ['client:views']);
 	gulp.watch(files.client.js.vendor, ['client:js:vendor']);
 	gulp.watch(files.client.js.app, ['client:js:app']);
 	gulp.watch(files.client.css, ['client:css']);

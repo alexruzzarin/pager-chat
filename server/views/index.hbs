@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="pager-chat">
 <head>
+    <base href="/"/>
+
     <title>Alex Pager Chat</title>
 
     <meta charset="utf-8"/>
@@ -14,100 +16,38 @@
     <meta name="description"
           content="Create a realtime chat application that allows two or more users to have private conversations."/>
 
-    <!-- Fav Icon -->
-    <link rel="icon" type="image/png" href="images/favicon.png"/>
+    <link rel="icon" type="image/png" href="/images/favicon.png"/>
 
-    <!--Application CSS Files-->
-    {% for cssFile in cssFiles %}
-    <link rel="stylesheet" href="{{cssFile}}">
-    {% endfor %}
+    <link rel="stylesheet" href="/css/application.css">
 </head>
 
-<body class="ng-cloak">
-<header class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container" data-ng-controller="HeaderController">
+<body ng-controller="AppCtrl as app">
+<header class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="/#!/" class="navbar-brand">Alex Pager Chat</a>
+            <a class="navbar-brand" href="#">Alex Pager Chat</a>
         </div>
-        <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
-            <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
-                <li data-ng-repeat="item in menu.items | orderBy: 'position'"
-                    data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.menuItemType"
-                    ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" ng-class="{active: ($uiRoute)}"
-                    dropdown="item.menuItemType === 'dropdown'">
-                    <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle>
-                        <span data-ng-bind="item.title"></span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul ng-switch-when="dropdown" class="dropdown-menu">
-                        <li data-ng-repeat="subitem in item.items | orderBy: 'position'"
-                            data-ng-if="subitem.shouldRender(authentication.user);" ui-route="{{subitem.uiRoute}}"
-                            ng-class="{active: $uiRoute}">
-                            <a href="/#!/{{subitem.link}}" data-ng-bind="subitem.title"></a>
-                        </li>
-                    </ul>
-                    <a ng-switch-default href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
-                <li ui-route="/signup" ng-class="{active: $uiRoute}">
-                    <a href="/#!/signup">Sign Up</a>
-                </li>
-                <li class="divider-vertical"></li>
-                <li ui-route="/signin" ng-class="{active: $uiRoute}">
-                    <a href="/#!/signin">Sign In</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
-                <li class="dropdown" dropdown>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" dropdown-toggle>
-                        <span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="/#!/settings/profile">Edit Profile</a>
-                        </li>
-                        <li>
-                            <a href="/#!/settings/accounts">Manage Social Accounts</a>
-                        </li>
-                        <li data-ng-show="authentication.user.provider === 'local'">
-                            <a href="/#!/settings/password">Change Password</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="/auth/signout">Signout</a>
-                        </li>
-                    </ul>
-                </li>
+        <nav id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </div>
 </header>
-<section class="content">
-    <section class="container">
-        <section data-ui-view></section>
-    </section>
-</section>
-
-<!--Embedding The User Object-->
-<script type="text/javascript">
-    var user = {{{user}}};
-</script>
-
-<!--Application JavaScript Files-->
-{% for jsFile in jsFiles %}
-<script type="text/javascript" src="{{jsFile}}"></script>
-{% endfor %}
 
 {{#if development}}
-    <!--Livereload script rendered -->
-    <script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
+    <!--<script src="http://{{request.hostname}}:35729/livereload.js"></script>-->
 {{/if}}
+<script src="/js/vendor.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>

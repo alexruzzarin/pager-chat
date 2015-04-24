@@ -1,0 +1,26 @@
+<form ng-submit="signin.signin()">
+	<fieldset>
+		<legend>
+			Sign in to chat
+		</legend>
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" id="username" placeholder="Username" ng-model="signin.credentials.username">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" id="password" placeholder="Password" ng-model="signin.credentials.password">
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg">Sign in</button>
+		<div ng-show="signin.error" class="text-center text-danger">
+			<strong ng-bind="signin.error"></strong>
+		</div>
+	</fieldset>
+</form>
+<hr/>
+<form>
+	<fieldset>
+		<legend>Or sign up</legend>
+	</fieldset>
+	<a href="/signup" class="btn btn-default">Sign up</a>
+</form>

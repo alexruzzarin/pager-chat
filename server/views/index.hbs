@@ -32,17 +32,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Alex Pager Chat</a>
+            <a class="navbar-brand" href="/">Alex Pager Chat</a>
         </div>
         <nav id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li class="active"><a href="/">Home</a></li>
             </ul>
         </nav>
     </div>
 </header>
+<div class="container" ng-class="{loading: loading}">
+    <div ng-show="app.loading">
+        <p class="loading-text">Cargando...</p>
+    </div>
+    <ng-view ng-hide="app.loading"></ng-view>
+</div>
 
 {{#if development}}
     <!--<script src="http://{{request.hostname}}:35729/livereload.js"></script>-->

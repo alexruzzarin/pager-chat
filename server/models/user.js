@@ -45,10 +45,6 @@ var UserSchema = new Schema({
     salt: {
         type: String
     },
-    provider: {
-        type: String,
-        required: 'Provider is required'
-    },
     updated: {
         type: Date
     },

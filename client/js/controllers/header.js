@@ -3,8 +3,9 @@
  */
 'use strict';
 
-angular.module('pager-chat').controller('HeaderController',
-	function ($scope, Authentication) {
-
+angular.module('pager-chat').controller('HeaderCtrl',
+	function (Authentication) {
+		var me = this;
+		me.authentication = Authentication;
 	}
 );

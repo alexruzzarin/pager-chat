@@ -9,7 +9,8 @@ angular.module('pager-chat').config(function ($locationProvider, $routeProvider)
 	$routeProvider
 		.when('/', {
 			templateUrl: '/views/main.html',
-			controller: 'MainCtrl'
+			controller: 'MainCtrl',
+			controllerAs: 'main'
 		})
 		.when('/signin', {
 			templateUrl: 'views/signin.html',
@@ -18,7 +19,8 @@ angular.module('pager-chat').config(function ($locationProvider, $routeProvider)
 		})
 		.when('/signup', {
 			templateUrl: 'views/signup.html',
-			controller: 'SignupCtrl'
+			controller: 'SignupCtrl',
+			controllerAs: 'signup'
 		})
 		.otherwise({
 			redirectTo: '/'

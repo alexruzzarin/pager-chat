@@ -27,7 +27,8 @@ var files = {
 				'bower_components/jquery/dist/jquery.js',
 				'bower_components/bootstrap/dist/js/bootstrap.js',
 				'bower_components/angular/angular.js',
-				'bower_components/angular-route/angular-route.js'
+				'bower_components/angular-route/angular-route.js',
+				'bower_components/socket.io-client/socket.io.js'
 			],
 			app: [
 				'client/js/application.js',

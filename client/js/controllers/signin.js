@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('pager-chat').controller('SigninCtrl', function (Authentication, $http) {
+angular.module('pager-chat').controller('SigninCtrl', function (Authentication, $http, $location) {
 	var me = this;
 	if (Authentication.user) $location.path('/');
 
@@ -17,7 +17,7 @@ angular.module('pager-chat').controller('SigninCtrl', function (Authentication, 
 				// And redirect to the index page
 				$location.path('/');
 			}).error(function (response) {
-				$scope.error = response.message;
+				me.error = response.message;
 			});
 	};
 });

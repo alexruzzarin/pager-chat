@@ -5,6 +5,11 @@
 var consolidate = require('consolidate');
 
 module.exports = function (app) {
+	app.locals.helpers = {
+		json: function (obj) {
+			return JSON.stringify(obj);
+		}
+	};
 	app.engine('hbs', consolidate.handlebars);
 
 	// Set views path and view engine

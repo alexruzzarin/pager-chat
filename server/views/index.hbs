@@ -22,10 +22,10 @@
 </head>
 
 <body ng-controller="AppCtrl as app">
-<header class="navbar navbar-inverse navbar-fixed-top">
+<header ng-controller="HeaderCtrl as header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-top"
                     aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -34,9 +34,17 @@
             </button>
             <a class="navbar-brand" href="/">Alex Pager Chat</a>
         </div>
-        <nav id="navbar" class="collapse navbar-collapse">
+        <nav id="navbar-top" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
+                <li class="divider"></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-hide="header.authentication.user">
+                <li><a href="/signin">Sign in</a></li>
+                <li><a href="/signup">Sign up</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-show="header.authentication.user">
+                <li><a href="/">Hello, <span ng-bind="header.authentication.user.username"></span></a></li>
             </ul>
         </nav>
     </div>
@@ -51,6 +59,9 @@
 {{#if development}}
     <!--<script src="http://{{request.hostname}}:35729/livereload.js"></script>-->
 {{/if}}
+<script>
+	var user = {{{json user}}};
+</script>
 <script src="/js/vendor.js"></script>
 <script src="/js/app.js"></script>
 </body>

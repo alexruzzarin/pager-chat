@@ -4,22 +4,19 @@
 'use strict';
 
 var session = require('express-session'),
-	mongoStore = require('connect-mongo')({
-		session: session
-	}),
 	passport = require('passport'),
 	config = require('../config');
 
 module.exports = function (app, db) {
+
+	var sessionStore = require('../session-store')(db);
+
 	// Express MongoDB session storage
 	app.use(session({
 		saveUninitialized: true,
 		resave: true,
 		secret: config.sessionSecret,
-		store: new mongoStore({
-			mongooseConnection: db.connection,
-			collection: config.sessionCollection
-		}),
+		store: sessionStore,
 		cookie: config.sessionCookie,
 		name: config.sessionName
 	}));

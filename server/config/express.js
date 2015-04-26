@@ -4,7 +4,8 @@
 
 'use strict';
 
-var express = require('express'),
+var http = require('http'),
+	express = require('express'),
 	config = require('./config'),
 	path = require('path');
 

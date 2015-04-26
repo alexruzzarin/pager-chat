@@ -1,11 +1,14 @@
 'use strict';
 
-var app = require('./server/app'),
+var http = require('http'),
+	app = require('./server/app'),
 	config = require('./server/config/config');
 
+var server = http.Server(app);
+var io = require('./server/config/socketio')(server);
 
 // Start the app by listening on <port>
-app.listen(config.port, function () {
+server.listen(config.port, function () {
 	console.log('Listening!');
 });
 

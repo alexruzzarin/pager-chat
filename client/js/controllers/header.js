@@ -4,8 +4,9 @@
 'use strict';
 
 angular.module('pager-chat').controller('HeaderCtrl',
-	function (Authentication) {
+	function (Authentication, RoomsService) {
 		var me = this;
 		me.authentication = Authentication;
+		me.rooms = RoomsService.getRooms();
 	}
 );

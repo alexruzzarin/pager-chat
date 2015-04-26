@@ -12,6 +12,11 @@ angular.module('pager-chat').config(function ($locationProvider, $routeProvider)
 			controller: 'MainCtrl',
 			controllerAs: 'main'
 		})
+		.when('/room/:room', {
+			templateUrl: '/views/room.html',
+			controller: 'RoomCtrl',
+			controllerAs: 'room'
+		})
 		.when('/signin', {
 			templateUrl: 'views/signin.html',
 			controller: 'SigninCtrl',

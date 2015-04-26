@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="row">
+	<div class="col-md-4">
+		<section id="join">
+			<form ng-submit="main.roomJoin()">
+				<fieldset>
+					<legend>Create or Join in a room</legend>
+					<div class="form-group">
+						<label for="room">Room</label>
+						<input type="text" class="form-control" id="room" placeholder="Room name"
+							   ng-model="main.roomToJoin">
+					</div>
+					<button type="submit" class="btn btn-primary btn-lg">Create or Join</button>
+				</fieldset>
+			</form>
+		</section>
+	</div>
+	<div class="col-md-8">
+		<p ng-repeat="notification in main.notifications">
+			{{notification.text}}
+		</p>
+	</div>
+</div>

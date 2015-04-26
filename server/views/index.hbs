@@ -38,6 +38,9 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
                 <li class="divider"></li>
+                <li ng-repeat="room in header.rooms" ng-class="{active: false}">
+                    <a ng-href="\{{room.link}}" ng-bind="room.title"></a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-hide="header.authentication.user">
                 <li><a href="/signin">Sign in</a></li>

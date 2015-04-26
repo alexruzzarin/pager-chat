@@ -38,9 +38,39 @@ module.exports = function (server) {
 	}
 
 	io.sockets.on('connection', function (socket) {
-		socket.emit('user-connected', {user: 'world'});
-		socket.on('my other event', function (data) {
-			console.log(data);
+
+		io.sockets.emit('system', {text: socket.request.user.username + ' is online.'});
+
+		socket.on('disconnect', function () {
+			io.sockets.emit('system', {text: socket.request.user.username + ' is offline.'});
+		});
+
+		socket.on('room-join', function (data) {
+			socket.join(data.room);
+			socket.broadcast.to(data.room).emit('room-system', {
+				room: data.room,
+				text: socket.request.user.username + ' joined the room.'
+			});
+			socket.emit('room-join-result', {
+				success: true,
+				room: data.room
+			});
+		});
+		socket.on('room-leave', function (data) {
+			socket.leave(data.room);
+			socket.broadcast.to(data.room).emit('room-system', {
+				room: data.room,
+				text: socket.request.user.username + ' leaves the room.'
+			});
+		});
+		socket.on('room-message', function (data) {
+			var e = {
+				room: data.room,
+				sender: socket.request.user.username,
+				text: data.text
+			};
+			socket.broadcast.to(data.room).emit('room-message', e);
+			socket.emit('room-message', e);
 		});
 	});
 

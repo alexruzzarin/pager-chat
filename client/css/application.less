@@ -1,5 +1,19 @@
 @import "bootstrap";
 
+
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
   margin-top: @navbar-height;
+  margin-bottom: @navbar-height;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  //width: 100%;
+  /* Set the fixed height of the footer here */
+  height: @navbar-height;
+  background-color: #f5f5f5;
 }

@@ -1,0 +1,18 @@
+<div class="page-header">
+	<h1>Room <b>#</b>{{room.room}}</h1>
+</div>
+<p ng-repeat="message in room.messages"><b>{{message.sender}}</b> - {{message.text}}</p>
+
+<footer class="footer">
+	<div class="container">
+		<form ng-submit="room.commandSend()">
+			<div class="input-group">
+				<input type="text" class="form-control" placeholder="Command or message..."
+					   ng-model="room.commandToSend">
+				<span class="input-group-btn">
+					<button class="btn btn-primary" type="submit">Send</button>
+				</span>
+			</div>
+		</form>
+	</div>
+</footer>

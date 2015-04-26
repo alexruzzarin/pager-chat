@@ -96,7 +96,7 @@ gulp.task('test:server', function (done) {
 gulp.task('test', ['test:server']);
 
 gulp.task('watch', ['build'], function () {
-	gulp.watch(files.server.js, ['test:server']);
+	gulp.watch(files.server.js, []);
 	gulp.watch(files.client.images, ['client:images']);
 	gulp.watch(files.client.views, ['client:views']);
 	gulp.watch(files.client.js.vendor, ['client:js:vendor']);

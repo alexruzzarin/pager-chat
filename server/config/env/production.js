@@ -13,5 +13,8 @@ module.exports = {
 		options: {
 			stream: 'access.log'
 		}
+	},
+	db: {
+		uri: process.env.MONGOLAB_URI
 	}
 };

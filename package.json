@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "gulp test",
-    "portInstall": "bower intall && gulp build"
+    "postInstall": "bower intall && gulp build"
   },
   "repository": {
     "type": "git",

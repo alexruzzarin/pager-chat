@@ -42,5 +42,6 @@ module.exports = {
 	},
 	redis: {
 		uri: 'localhost:6379'
-	}
+	},
+	assetsSuffix: ''
 };

@@ -19,5 +19,6 @@ module.exports = {
 	},
 	redis: {
 		uri: process.env.REDISCLOUD_URL
-	}
+	},
+	assetsSuffix: '.min'
 };

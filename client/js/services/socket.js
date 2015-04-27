@@ -35,6 +35,8 @@ angular.module('pager-chat').factory('ChatSocket', function (io, $window, $rootS
 	};
 	var roomLeave = function (room) {
 		socket.emit('room-join', {room: room});
+		RoomsService.removeRoom(room);
+		$location.path('/');
 	};
 
 	return {

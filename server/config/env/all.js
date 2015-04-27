@@ -39,5 +39,8 @@ module.exports = {
 			user: '',
 			pass: ''
 		}
+	},
+	redis: {
+		uri: 'localhost:6379'
 	}
 };

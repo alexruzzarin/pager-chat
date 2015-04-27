@@ -16,5 +16,8 @@ module.exports = {
 	},
 	db: {
 		uri: process.env.MONGOLAB_URI
+	},
+	redis: {
+		uri: process.env.REDISCLOUD_URL
 	}
 };

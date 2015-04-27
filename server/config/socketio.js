@@ -3,12 +3,15 @@
  */
 var db = require('./db'),
 	socketio = require('socket.io'),
+	ioRedis = require('socket.io-redis'),
 	sessionStore = require('./session-store')(db),
 	passportSocketIo = require('passport.socketio'),
 	config = require('./config');
 
 module.exports = function (server) {
 	var io = socketio(server);
+
+	io.adapter(ioRedis(config.redis.uri));
 
 	io.use(passportSocketIo.authorize({
 		cookieParser: require('cookie-parser'),       // the same middleware you registrer in express

@@ -32,6 +32,10 @@ angular.module('pager-chat').factory('ChatSocket', function (io, $window, $rootS
 		RoomsService.addRoomMessage(data.room, data);
 		$rootScope.$apply();
 	});
+	socket.on('rooms', function (data) {
+		SystemService.setRooms(data);
+		$rootScope.$apply();
+	});
 
 	var command = function (command, currentRoom) {
 		socket.emit('command', {command: command, room: currentRoom});

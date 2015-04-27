@@ -7,6 +7,9 @@ var db = require('./db'),
 	sessionStore = require('./session-store')(db),
 	passportSocketIo = require('passport.socketio'),
 	config = require('./config'),
+	User = require('mongoose').model('User'),
+	Room = require('mongoose').model('Room'),
+	_ = require('lodash'),
 	RestClient = require('node-rest-client').Client,
 	restClient = new RestClient();
 
@@ -63,9 +66,17 @@ module.exports = function (server) {
 
 		socket.on('disconnect', function () {
 			io.sockets.emit('system', {text: socket.request.user.username + ' is offline.'});
+
+			Room.update({users: socket.request.user.username},{$pop: {users: socket.request.user.username}}, function (err, rooms) {
+				if(err){
+					console.log(err);
+					return;
+				}
+				console.log(rooms);
+			});
 		});
 
-		var roomJoin = function (room) {
+		var roomJoinResult = function (room) {
 			socket.join(room);
 			socket.broadcast.to(room).emit('room-system', {
 				room: room,
@@ -76,8 +87,55 @@ module.exports = function (server) {
 				success: true,
 				room: room
 			});
+			listRooms();
 		};
-		var roomLeave = function (room) {
+		var roomJoinUser = function (room) {
+			var user = socket.request.user;
+			if (!_.contains(user.rooms, room)) {
+				user.rooms.push(room);
+
+				user.save(function (err) {
+					if (err)return;
+
+					roomJoinResult(room);
+				});
+			} else {
+				roomJoinResult(room);
+			}
+		};
+		var roomJoin = function (room) {
+			if (!/^[a-zA-Z0-9_-]*$/.test(room)) {
+				io.sockets.emit('system', {text: room + ' is not a valid room name.'});
+				return;
+			}
+			var user = socket.request.user;
+
+			Room.findOne({name: room}, function (err, dbroom) {
+				if (err) return;
+
+				if (dbroom) {
+					if (dbroom.private && !_.contains(dbroom.invitedUsers, user.username)) {
+						io.sockets.emit('system', {text: socket.request.user.username + ' is not invited to ' + room + '.'});
+						return;
+					}
+				} else {
+					dbroom = new Room({
+						name: room,
+						owner: user.username
+					});
+				}
+				if (!_.contains(dbroom.users, user.username)) {
+					dbroom.users.push(user.username);
+				}
+				dbroom.save(function (err) {
+					if (err)return;
+					roomJoinUser(room);
+				})
+			});
+
+
+		};
+		var roomLeaveResult = function (room) {
 			socket.leave(room);
 			socket.broadcast.to(room).emit('room-system', {
 				room: room,
@@ -87,6 +145,27 @@ module.exports = function (server) {
 			socket.emit('room-leave-result', {
 				room: room
 			});
+			listRooms();
+		};
+		var roomLeave = function (room) {
+			var user = socket.request.user;
+			Room.findOne({name: room}, function (err, dbroom) {
+				if (!err && dbroom) {
+					if (_.contains(dbroom.users, user.username)) {
+						dbroom.users.pop(user.username);
+						dbroom.save();
+					}
+				}
+			});
+			if (_.contains(user.rooms, room)) {
+				user.rooms.pop(room);
+				user.save(function (err) {
+					if (err)return;
+					roomLeaveResult(room);
+				});
+			} else {
+				roomLeaveResult(room);
+			}
 		};
 		var roomMessage = function (room, text, type) {
 			var e = {
@@ -100,8 +179,7 @@ module.exports = function (server) {
 				e.type = type;
 			}
 
-			socket.broadcast.to(room).emit('room-message', e);
-			socket.emit('room-message', e);
+			io.sockets.in(room).emit('room-message', e);
 		};
 		var roomGiphy = function (room, keyword) {
 			var args = {
@@ -116,6 +194,12 @@ module.exports = function (server) {
 				socket.emit('system', {
 					text: 'Giphy API error.'
 				});
+			});
+		};
+		var listRooms = function () {
+			Room.find({}, function (err, rooms) {
+				if (err)return;
+				io.sockets.emit('rooms', rooms);
 			});
 		};
 
@@ -151,6 +235,8 @@ module.exports = function (server) {
 				roomMessage(data.room, data.command);
 			}
 		})
+
+		listRooms();
 	});
 
 	return io;

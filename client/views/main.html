@@ -13,6 +13,19 @@
 				</fieldset>
 			</form>
 		</section>
+		<section id="rooms">
+			<form>
+				<fieldset>
+					<legend>Rooms</legend>
+					<p ng-repeat="room in main.rooms">
+						<button class="btn btn-default btn-sm" type="button" ng-click="main.joinRoom(room.name)">Join
+						</button>
+						#{{room.name}} ({{room.users.length}}) by @{{room.owner}}
+						<span ng-if="room.private" class="glyphicon glyphicon-eye-close"></span>
+					</p>
+				</fieldset>
+			</form>
+		</section>
 	</div>
 	<div class="col-md-8">
 		<section id="notifications">

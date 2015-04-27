@@ -3,13 +3,27 @@
  */
 'use strict';
 angular.module('pager-chat').service('SystemService', function () {
-	this.notifications = [];
+	var me = this;
+	me.notifications = [];
 
-	this.getNotifications = function () {
-		return this.notifications;
+	me.getNotifications = function () {
+		return me.notifications;
 	};
 
-	this.addNotification = function (data) {
-		this.notifications.push(data);
-	}
+	me.addNotification = function (data) {
+		me.notifications.push(data);
+	};
+
+	me.rooms = [];
+
+	me.getRooms = function () {
+		return me.rooms;
+	};
+
+	me.setRooms = function (data) {
+		me.rooms.length = 0;
+		data.forEach(function (r) {
+			me.rooms.push(r);
+		});
+	};
 });

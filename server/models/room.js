@@ -10,7 +10,7 @@ var RoomSchema = new Schema({
 	name: {
 		type: String,
 		trim: true,
-		match: [/.+\@.+\..+/, 'Please fill a valid room name'],
+		match: [/^[a-zA-Z0-9_-]*$/, 'Please fill a valid room name'],
 		required: 'Please fill a valid room name'
 	},
 	private: {

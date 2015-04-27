@@ -10,8 +10,12 @@ angular.module('pager-chat').controller('MainCtrl', function (Authentication, $l
 	var me = this;
 
 	me.notifications = SystemService.getNotifications();
+	me.rooms = SystemService.getRooms();
 
 	me.roomJoin = function () {
 		ChatSocket.roomJoin(me.roomToJoin);
-	}
+	};
+	me.joinRoom = function (room) {
+		ChatSocket.roomJoin(room);
+	};
 });

@@ -1,5 +1,9 @@
 <div class="page-header">
-	<h1>Room <b>#</b>{{room.room}}</h1>
+	<h1>Room <b>#</b>{{room.room}}
+		<small>
+			<button class="btn btn-danger" type="button" ng-click="room.leave()">Leave</button>
+		</small>
+	</h1>
 </div>
 <p ng-repeat="message in room.messages" ng-switch on="message.type"
    ng-class="{'bg-warning':(message.sender==='system'), 'bg-info':(message.sender===room.username)}">

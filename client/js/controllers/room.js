@@ -19,6 +19,10 @@ angular.module('pager-chat').controller('RoomCtrl', function ($location, Authent
 	me.username = Authentication.user.username;
 	me.messages = RoomsService.getRoomMessages(room);
 
+	me.leave = function () {
+		ChatSocket.command('/leave', me.room);
+	};
+
 	me.commandSend = function () {
 		if (me.commandToSend.length > 0) {
 			ChatSocket.command(me.commandToSend, me.room);

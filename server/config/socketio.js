@@ -61,7 +61,6 @@ module.exports = function (server) {
 	}
 
 	io.sockets.on('connection', function (socket) {
-
 		io.sockets.emit('system', {text: socket.request.user.username + ' is online.'});
 
 		socket.on('disconnect', function () {
@@ -261,6 +260,14 @@ module.exports = function (server) {
 					});
 					return;
 				}
+				if (dbroom.owner === username) {
+					socket.emit('room-system', {
+						room: room,
+						text: 'Can not uninvite the owner.',
+						time: Date.now
+					});
+					return;
+				}
 				if (dbroom.private && _.contains(dbroom.invitedUsers, username)) {
 					dbroom.invitedUsers.pop(username);
 					dbroom.save(function (err) {
@@ -297,6 +304,11 @@ module.exports = function (server) {
 			Room.find({}, function (err, rooms) {
 				if (err)return;
 				io.sockets.emit('rooms', rooms);
+			});
+		};
+		var userJoinPreviousRooms = function () {
+			socket.request.user.rooms.forEach(function (room) {
+				roomJoin(room);
 			});
 		};
 
@@ -355,6 +367,7 @@ module.exports = function (server) {
 			}
 		});
 
+		userJoinPreviousRooms();
 		listRooms();
 	});
 

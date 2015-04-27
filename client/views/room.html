@@ -5,21 +5,34 @@
 		</small>
 	</h1>
 </div>
-<p ng-repeat="message in room.messages" ng-switch on="message.type"
-   ng-class="{'bg-warning':(message.sender==='system'), 'bg-info':(message.sender===room.username)}">
-	<b>{{::message.sender}}</b> -
-	<img ng-switch-when="image" src="{{message.text}}" height="200"/>
-	<span ng-switch-default>{{::message.text}}</span>
-</p>
-
-<footer class="footer">
+<div class="messages-container" scroll-glue="room.autoscroll" auto-height>
+	<p ng-repeat="message in room.messages" ng-switch on="message.type"
+	   ng-class="{'bg-warning':(message.sender==='system'), 'bg-info':(message.sender===room.username)}">
+		<b>{{::message.sender}}</b> -
+		<img ng-switch-when="image" src="{{message.text}}" height="200"/>
+		<span ng-switch-default>{{::message.text}}</span>
+	</p>
+</div>
+<footer class="footer row">
 	<div class="container">
 		<form ng-submit="room.commandSend()">
 			<div class="input-group">
 				<input type="text" class="form-control" placeholder="Command or message..."
 					   ng-model="room.commandToSend">
-				<span class="input-group-btn">
+				<span class="input-group-btn dropup">
 					<button class="btn btn-primary" type="submit">Send</button>
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right " role="menu">
+						<li>
+							<label style="padding: 3px 20px;">
+								<input type="checkbox" class="" ng-model="room.autoscroll"/>
+								<span class="lbl"> Auto Scroll</span>
+							</label>
+						</li>
+					</ul>
 				</span>
 			</div>
 		</form>

@@ -16,6 +16,7 @@ angular.module('pager-chat').controller('RoomCtrl', function ($location, Authent
 
 	var me = this;
 	me.room = room;
+	me.autoscroll = true;
 	me.username = Authentication.user.username;
 	me.messages = RoomsService.getRoomMessages(room);
 

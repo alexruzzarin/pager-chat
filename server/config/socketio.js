@@ -11,7 +11,20 @@ var db = require('./db'),
 module.exports = function (server) {
 	var io = socketio(server);
 
-	io.adapter(ioRedis(config.redis.uri));
+	if (config.redis.uri.indexOf('localhost') >= 0) {
+		io.adapter(ioRedis(config.redis.uri));
+	} else {
+		var redis = require('redis'),
+			url = require('url'),
+			redisURL = url.parse(config.redis.uri);
+
+		var pub = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true}),
+			sub = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true,detect_buffers: true});
+		pub.auth(redisURL.auth.split(":")[1]);
+		sub.auth(redisURL.auth.split(":")[1]);
+
+		io.adapter(ioRedis({pubClient: pub, subClient: sub}));
+	}
 
 	io.use(passportSocketIo.authorize({
 		cookieParser: require('cookie-parser'),       // the same middleware you registrer in express

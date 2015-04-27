@@ -67,8 +67,8 @@ module.exports = function (server) {
 		socket.on('disconnect', function () {
 			io.sockets.emit('system', {text: socket.request.user.username + ' is offline.'});
 
-			Room.update({users: socket.request.user.username},{$pop: {users: socket.request.user.username}}, function (err, rooms) {
-				if(err){
+			Room.update({users: socket.request.user.username}, {$pop: {users: socket.request.user.username}}, function (err, rooms) {
+				if (err) {
 					console.log(err);
 					return;
 				}
@@ -196,6 +196,103 @@ module.exports = function (server) {
 				});
 			});
 		};
+		var roomPrivate = function (room, private) {
+			var sender = socket.request.user.username;
+			Room.findOne({name: room}, function (err, dbroom) {
+				if (err || !dbroom) return;
+				if (dbroom.owner !== sender) {
+					socket.emit('room-system', {
+						room: room,
+						text: 'Only the owner can config the room.',
+						time: Date.now
+					});
+					return;
+				}
+				dbroom.private = private;
+				if (private) {
+					dbroom.invitedUsers = dbroom.users;
+				} else {
+					dbroom.invitedUsers = [];
+				}
+				dbroom.save(function (err) {
+					if (err)return;
+					socket.emit('room-system', {
+						room: room,
+						text: private ? 'This room is private now.' : 'This room is public now.',
+						time: Date.now
+					});
+					if (private) {
+						roomListInvite(room);
+					}
+				});
+			});
+		};
+		var roomInvite = function (room, username) {
+			var sender = socket.request.user.username;
+			Room.findOne({name: room}, function (err, dbroom) {
+				if (err || !dbroom) return;
+				if (dbroom.owner !== sender) {
+					socket.emit('room-system', {
+						room: room,
+						text: 'Only the owner can config the room.',
+						time: Date.now
+					});
+					return;
+				}
+				if (dbroom.private && !_.contains(dbroom.invitedUsers, username)) {
+					dbroom.invitedUsers.push(username);
+					dbroom.save(function (err) {
+						if (err)return;
+
+						roomListInvite(room);
+					});
+				}
+			});
+		};
+		var roomUninvite = function (room, username) {
+			var sender = socket.request.user.username;
+			Room.findOne({name: room}, function (err, dbroom) {
+				if (err || !dbroom) return;
+				if (dbroom.owner !== sender) {
+					socket.emit('room-system', {
+						room: room,
+						text: 'Only the owner can config the room.',
+						time: Date.now
+					});
+					return;
+				}
+				if (dbroom.private && _.contains(dbroom.invitedUsers, username)) {
+					dbroom.invitedUsers.pop(username);
+					dbroom.save(function (err) {
+						if (err)return;
+
+						roomListInvite(room);
+					});
+				}
+			});
+		};
+		var roomListInvite = function (roomName) {
+			Room.findOne({name: roomName}, function (err, dbroom) {
+				if (err || !dbroom) return;
+				if (dbroom.private) {
+					socket.emit('room-system', {
+						room: roomName,
+						text: 'Invited users: ' + dbroom.invitedUsers.join(', '),
+						time: Date.now
+					});
+				}
+			});
+		};
+		var roomListUsers = function (roomName) {
+			Room.findOne({name: roomName}, function (err, dbroom) {
+				if (err || !dbroom) return;
+				socket.emit('room-system', {
+					room: roomName,
+					text: 'Users: ' + dbroom.users.join(', '),
+					time: Date.now
+				});
+			});
+		};
 		var listRooms = function () {
 			Room.find({}, function (err, rooms) {
 				if (err)return;
@@ -228,13 +325,35 @@ module.exports = function (server) {
 							roomGiphy(data.room, c[1]);
 						}
 						break;
+					case '/private-on':
+						roomPrivate(data.room, true);
+						break;
+					case '/private-off':
+						roomPrivate(data.room, false);
+						break;
+					case '/invite':
+						if (c.length > 1) {
+							roomInvite(data.room, c[1]);
+						}
+						break;
+					case '/uninvite':
+						if (c.length > 1) {
+							roomUninvite(data.room, c[1]);
+						}
+						break;
+					case '/list-invited':
+						roomListInvite(data.room);
+						break;
+					case '/list-users':
+						roomListUsers(data.room);
+						break;
 					default:
 						roomMessage(data.room, data.command);
 				}
 			} else {
 				roomMessage(data.room, data.command);
 			}
-		})
+		});
 
 		listRooms();
 	});

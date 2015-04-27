@@ -37,10 +37,14 @@ var files = {
 			]
 		},
 		css: 'client/css/application.less',
-		views: 'client/views/**/*.html'
+		views: 'client/views/**/*.html',
+		fonts: ['bower_components/bootstrap/fonts/**/*.*']
 	}
 };
-
+gulp.task('client:fonts', function () {
+	gulp.src(files.client.fonts)
+		.pipe(gulp.dest('public/fonts'));
+});
 gulp.task('client:images', function () {
 	gulp.src(files.client.images)
 		.pipe(gulp.dest('public/images'));
@@ -81,7 +85,7 @@ gulp.task('client:css', function () {
 		.pipe(minifyCss())
 		.pipe(gulp.dest('public/css'));
 });
-gulp.task('client', ['client:images', 'client:views', 'client:js:vendor', 'client:js:app', 'client:css']);
+gulp.task('client', ['client:images', 'client:views', 'client:js:vendor', 'client:js:app', 'client:css', 'client:fonts']);
 
 /*
  gulp.task('test:server', function (done) {
@@ -101,6 +105,7 @@ gulp.task('test', []);
 
 gulp.task('watch', ['build'], function () {
 	//gulp.watch(files.server.js, []);
+	gulp.watch(files.client.fonts, ['client:fonts']);
 	gulp.watch(files.client.images, ['client:images']);
 	gulp.watch(files.client.views, ['client:views']);
 	gulp.watch(files.client.js.vendor, ['client:js:vendor']);

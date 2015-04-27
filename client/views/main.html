@@ -21,7 +21,7 @@
 						<button class="btn btn-default btn-sm" type="button" ng-click="main.joinRoom(room.name)">Join
 						</button>
 						#{{room.name}} ({{room.users.length}}) by @{{room.owner}}
-						<span ng-if="room.private" class="glyphicon glyphicon-eye-close"></span>
+						<span ng-if="room.private" class="glyphicon glyphicon-eye-close" title="Private Room"></span>
 					</p>
 				</fieldset>
 			</form>
@@ -50,6 +50,18 @@
 						<dd>Leave the current room</dd>
 						<dt>/giphy keyword</dt>
 						<dd>Send a animated gif to room</dd>
+						<dt>/list-users</dt>
+						<dd>List users on the current room</dd>
+						<dt>/list-invited</dt>
+						<dd>List invited users on the current room</dd>
+						<dt>/private-on</dt>
+						<dd>Makes the current room private and invite connected users</dd>
+						<dt>/private-off</dt>
+						<dd>Makes the current room public</dd>
+						<dt>/invite user</dt>
+						<dd>Invite user to current private room</dd>
+						<dt>/uninvite user</dt>
+						<dd>Uninvite user to current private room</dd>
 					</dl>
 				</fieldset>
 			</form>

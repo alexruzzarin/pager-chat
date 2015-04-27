@@ -17,55 +17,38 @@ angular.module('pager-chat').factory('ChatSocket', function (io, $window, $rootS
 			$rootScope.$apply();
 		}
 	});
+	socket.on('room-leave-result', function (data) {
+		RoomsService.removeRoom(data.room);
+		$location.path('/');
+		$rootScope.$apply();
+	});
 
 	socket.on('room-message', function (data) {
-		RoomsService.addRoomMessage(data.room, {sender: data.sender, text: data.text});
+		RoomsService.addRoomMessage(data.room, data);
 		$rootScope.$apply();
 	});
 	socket.on('room-system', function (data) {
-		RoomsService.addRoomMessage(data.room, {sender: 'system', text: data.text});
+		data.sender = 'system';
+		RoomsService.addRoomMessage(data.room, data);
 		$rootScope.$apply();
 	});
 
-	var roomMessage = function (room, text) {
-		socket.emit('room-message', {room: room, text: text});
+	var command = function (command, currentRoom) {
+		socket.emit('command', {command: command, room: currentRoom});
 	};
 	var roomJoin = function (room) {
-		socket.emit('room-join', {room: room});
+		if (room) {
+			command('/join ' + room);
+		}
 	};
 	var roomLeave = function (room) {
-		socket.emit('room-leave', {room: room});
-		RoomsService.removeRoom(room);
-		$location.path('/');
+		if (room) {
+			command('/leave ' + room);
+		}
 	};
 
 	return {
-		command: function (command, currentRoom) {
-			if (command.indexOf('/') === 0) {
-				var c = command.split(' ');
-				var action = c[0].toLowerCase();
-				switch (action) {
-					case '/join':
-						if (c.length === 2)
-							roomJoin(c[1]);
-						break;
-					case '/leave':
-						if (c.length === 1) {
-							roomLeave(currentRoom);
-						}
-						else if (c.length === 2) {
-							roomLeave(c[1]);
-						}
-						break;
-					default :
-						roomMessage(currentRoom, command);
-						break;
-				}
-			}
-			else {
-				roomMessage(currentRoom, command);
-			}
-		},
+		command: command,
 		roomJoin: roomJoin,
 		roomLeave: roomLeave
 	};

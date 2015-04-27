@@ -28,7 +28,8 @@ var files = {
 				'bower_components/bootstrap/dist/js/bootstrap.js',
 				'bower_components/angular/angular.js',
 				'bower_components/angular-route/angular-route.js',
-				'bower_components/socket.io-client/socket.io.js'
+				'bower_components/socket.io-client/socket.io.js',
+				'bower_components/moment/moment.js'
 			],
 			app: [
 				'client/js/application.js',
@@ -82,21 +83,24 @@ gulp.task('client:css', function () {
 });
 gulp.task('client', ['client:images', 'client:views', 'client:js:vendor', 'client:js:app', 'client:css']);
 
-gulp.task('test:server', function (done) {
-	gulp.src(files.server.js)
-		.pipe(istanbul())
-		.pipe(istanbul.hookRequire())
-		.on('finish', function () {
-			gulp.src(files.server.tests, {read: false})
-				.pipe(mocha())
-				.pipe(istanbul.writeReports())
-				.on('end', done);
-		});
-});
-gulp.task('test', ['test:server']);
+/*
+ gulp.task('test:server', function (done) {
+ gulp.src(files.server.js)
+ .pipe(istanbul())
+ .pipe(istanbul.hookRequire())
+ .on('finish', function () {
+ gulp.src(files.server.tests, {read: false})
+ .pipe(mocha())
+ .pipe(istanbul.writeReports())
+ .on('end', done);
+ });
+ });
+ gulp.task('test', ['test:server']);
+ */
+gulp.task('test', []);
 
 gulp.task('watch', ['build'], function () {
-	gulp.watch(files.server.js, []);
+	//gulp.watch(files.server.js, []);
 	gulp.watch(files.client.images, ['client:images']);
 	gulp.watch(files.client.views, ['client:views']);
 	gulp.watch(files.client.js.vendor, ['client:js:vendor']);

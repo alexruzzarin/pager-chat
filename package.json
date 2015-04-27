@@ -52,6 +52,7 @@
     "method-override": "^2.3.2",
     "mongoose": "^4.0.1",
     "morgan": "^1.5.2",
+    "node-rest-client": "^1.5.0",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "passport.socketio": "^3.5.1",

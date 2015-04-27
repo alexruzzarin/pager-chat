@@ -15,8 +15,32 @@
 		</section>
 	</div>
 	<div class="col-md-8">
-		<p ng-repeat="notification in main.notifications">
-			{{notification.text}}
-		</p>
+		<section id="notifications">
+			<form>
+				<fieldset>
+					<legend>Notifications</legend>
+					<p ng-repeat="notification in main.notifications">
+						{{notification.text}}</p>
+				</fieldset>
+			</form>
+		</section>
+		<section id="commands">
+			<form>
+				<fieldset>
+					<legend>Available Commands</legend>
+					<dl>
+						<dt>/join room</dt>
+						<dd>Join a room</dd>
+						<dt>/leave room</dt>
+						<dd>Leave the room</dd>
+						<dt>/leave</dt>
+						<dd>Leave the current room</dd>
+						<dt>/giphy keyword</dt>
+						<dd>Send a animated gif to room</dd>
+					</dl>
+				</fieldset>
+			</form>
+		</section>
+
 	</div>
 </div>

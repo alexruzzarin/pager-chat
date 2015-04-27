@@ -36,15 +36,15 @@
         </div>
         <nav id="navbar-top" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
+                <li ng-class="{ active: header.isActive('/')}"><a href="/">Home</a></li>
                 <li class="divider"></li>
-                <li ng-repeat="room in header.rooms" ng-class="{active: false}">
+                <li ng-repeat="room in header.rooms" ng-class="{ active: header.isActive(room.link)}">
                     <a ng-href="\{{room.link}}" ng-bind="room.title"></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-hide="header.authentication.user">
-                <li><a href="/signin">Sign in</a></li>
-                <li><a href="/signup">Sign up</a></li>
+                <li ng-class="{ active: header.isActive('/signin')}"><a href="/signin">Sign in</a></li>
+                <li ng-class="{ active: header.isActive('/signup')}"><a href="/signup">Sign up</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-show="header.authentication.user">
                 <li><a href="/">Hello, <span ng-bind="header.authentication.user.username"></span></a></li>
@@ -63,7 +63,7 @@
     <!--<script src="http://{{request.hostname}}:35729/livereload.js"></script>-->
 {{/if}}
 <script>
-	var user = {{{json user}}};
+    var user = {{{json user}}};
 </script>
 <script src="/js/vendor.js"></script>
 <script src="/js/app.js"></script>
